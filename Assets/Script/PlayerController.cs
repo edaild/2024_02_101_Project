@@ -5,40 +5,40 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // ÇÃ·¹ÀÌ¾îÀÇ ¿òÁ÷ÀÓ ¼Óµµ¸¦ ¼³Á¤ÇÏ´Â º¯¼ö
+    // í”Œë ˆì´ì–´ì˜ ì›€ì§ì„ ì†ë„ë¥¼ ì„¤ì •í•˜ëŠ” ë³€ìˆ˜
     [Header("Player Movement")]
-    public float moveSpeed = 5.0f;      // ÀÌµ¿ ¼Óµµ
-    public float jumpForce = 5.0f;      // Á¡ÇÁ Èû
+    public float moveSpeed = 5.0f;      // ì´ë™ ì†ë„
+    public float jumpForce = 5.0f;      // ì í”„ í˜
 
-    // Ä«¸Ş¶ó ¼³Á¤ º¯¼ö
+    // ì¹´ë©”ë¼ ì„¤ì • ë³€ìˆ˜
     [Header("Camera Settings")]
-    public Camera firstPersonCamera;                 // 1ÀÎÄª Ä«¸Ş¶ó
-    public Camera thirdPersonCamera;                 // 3ÀÎÄª Ä«¸Ş¶ó
+    public Camera firstPersonCamera;                 // 1ì¸ì¹­ ì¹´ë©”ë¼
+    public Camera thirdPersonCamera;                 // 3ì¸ì¹­ ì¹´ë©”ë¼
 
-    public float radius = 5.0f;                     // 3ÀÎÄª Ä«¸Ş¶ó¿Í ÇÃ·¯ÀÌ¾î °£ÀÇ °Å¸®
-    public float minRadius = 1.0f;                  // Ä«¸Ş¶ó ÃÖ¼Ò °Å¸®
-    public float maxRadius = 10.0f;                 // ÄÉ¸¶·¹ ÃÖ´ë °Å¸®
+    public float radius = 5.0f;                     // 3ì¸ì¹­ ì¹´ë©”ë¼ì™€ í”ŒëŸ¬ì´ì–´ ê°„ì˜ ê±°ë¦¬
+    public float minRadius = 1.0f;                  // ì¹´ë©”ë¼ ìµœì†Œ ê±°ë¦¬
+    public float maxRadius = 10.0f;                 // ì¼€ë§ˆë ˆ ìµœëŒ€ ê±°ë¦¬
 
-    public float yMinLimit = 30;                    // Ä«¸Ş¶ó ¼öÁ÷ È¸Àü ÃÖ¼Ò°¢
-    public float yMaxLimit = 90;                    // Ä«¸Ş¶ó ¼öÁ÷ È¸Àü ÃÖ´ë°¢
+    public float yMinLimit = 30;                    // ì¹´ë©”ë¼ ìˆ˜ì§ íšŒì „ ìµœì†Œê°
+    public float yMaxLimit = 90;                    // ì¹´ë©”ë¼ ìˆ˜ì§ íšŒì „ ìµœëŒ€ê°
 
-    private float theta = 0.0f;                     // Ä«¸Ş¶óÀÇ ¼öÆò È¸Àü °¢µµ
-    private float phi = 0.0f;                       // Ä«¸Ş¶óÀÇ ¼öÁ÷ È¸Àü °¢µµ
-    private float targetVerticalRoataion = 0;       // ¸ñÇ¥ ¼öÁ÷ È¸Àü °¢µµ
-    private float vericalRotationSpeed = 240f;     // ¼öÁ÷ È¸Àü ¼Óµµ
+    private float theta = 0.0f;                     // ì¹´ë©”ë¼ì˜ ìˆ˜í‰ íšŒì „ ê°ë„
+    private float phi = 0.0f;                       // ì¹´ë©”ë¼ì˜ ìˆ˜ì§ íšŒì „ ê°ë„
+    private float targetVerticalRoataion = 0;       // ëª©í‘œ ìˆ˜ì§ íšŒì „ ê°ë„
+    private float vericalRotationSpeed = 240f;     // ìˆ˜ì§ íšŒì „ ì†ë„
 
-    public float mouseSenesitivity = 2f;         // ¸¶¿ì½º °¨µµ
+    public float mouseSenesitivity = 2f;         // ë§ˆìš°ìŠ¤ ê°ë„
 
-    // ³»ºÎ º¯¼öµé
-    private bool isFirstPerson = true;          // 1ÀÎÄª ¸ğµå ÀÎÁö ¿©ºÎ
-    private bool isGrounded;                    // ÇÃ·¹ÀÌ¾î°¡ ¶¥¿¡ ÀÖÁö ¿©ºÎ
-    private Rigidbody rb;                       // ÇÃ·¹ÀÌ¾îÀÇ Rigidbody
+    // ë‚´ë¶€ ë³€ìˆ˜ë“¤
+    private bool isFirstPerson = true;          // 1ì¸ì¹­ ëª¨ë“œ ì¸ì§€ ì—¬ë¶€
+    private bool isGrounded;                    // í”Œë ˆì´ì–´ê°€ ë•…ì— ìˆì§€ ì—¬ë¶€
+    private Rigidbody rb;                       // í”Œë ˆì´ì–´ì˜ Rigidbody
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();         //Rigidbody ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿Â´Ù.
-        Cursor.lockState = CursorLockMode.Locked;       // ¸¶¿ì½º Ä¿¼­¸¦ Àá±×°í ¼û±è´Ù.
+        rb = GetComponent<Rigidbody>();         //Rigidbody ì»´í¬ë„ŒíŠ¸ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
+        Cursor.lockState = CursorLockMode.Locked;       // ë§ˆìš°ìŠ¤ ì»¤ì„œë¥¼ ì ê·¸ê³  ìˆ¨ê¹€ë‹¤.
         SetupCameras();
         SetActiveCamera();
     }
@@ -54,109 +54,109 @@ public class PlayerController : MonoBehaviour
 
     void SetActiveCamera()
     {
-        firstPersonCamera.gameObject.SetActive(isFirstPerson);      //1ÀÎÄª Ä«¸Ş¶ó È°¼ºÈ­ ¿©ºÎ
-        thirdPersonCamera.gameObject.SetActive(!isFirstPerson);      // 3ÀÎÄª Ä«¸Ş¶ó È°¼ºÈ­ ¿©ºÎ
+        firstPersonCamera.gameObject.SetActive(isFirstPerson);      //1ì¸ì¹­ ì¹´ë©”ë¼ í™œì„±í™” ì—¬ë¶€
+        thirdPersonCamera.gameObject.SetActive(!isFirstPerson);      // 3ì¸ì¹­ ì¹´ë©”ë¼ í™œì„±í™” ì—¬ë¶€
     }
 
-    // Ä«¸Ş¶ó ¹× Ä³¸¯ÅÍ È¸Àü Ã³¸®ÇÏ´Â ÇÔ¼ö
+    // ì¹´ë©”ë¼ ë° ìºë¦­í„° íšŒì „ ì²˜ë¦¬í•˜ëŠ” í•¨ìˆ˜
     void HandleRotation()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSenesitivity;        // ¸¶¿ì½º ÁÂ¿ì ÀÔ·Â
-        float mousey = Input.GetAxis("Mouse Y") * mouseSenesitivity;        // ¸¶¿ì½º »óÇÏ ÀÔ·Â
+        float mouseX = Input.GetAxis("Mouse X") * mouseSenesitivity;        // ë§ˆìš°ìŠ¤ ì¢Œìš° ì…ë ¥
+        float mousey = Input.GetAxis("Mouse Y") * mouseSenesitivity;        // ë§ˆìš°ìŠ¤ ìƒí•˜ ì…ë ¥
 
-        // ¼öÆò È¸Àü (theta) °ª
+        // ìˆ˜í‰ íšŒì „ (theta) ê°’
 
-        theta += mouseX;            // ¸¶¿ì½º ÀÔ·Â°ª Ãß°¡
-        theta = Mathf.Repeat(theta, 360f);  // °¢µµ °ªÀÌ 360À» ³ÑÁö ¾Êµµ·Ï Á¶Á¤
+        theta += mouseX;            // ë§ˆìš°ìŠ¤ ì…ë ¥ê°’ ì¶”ê°€
+        theta = Mathf.Repeat(theta, 360f);  // ê°ë„ ê°’ì´ 360ì„ ë„˜ì§€ ì•Šë„ë¡ ì¡°ì •
 
-        //  ¼öÁ÷ È¸Àü Ã³¸®
+        //  ìˆ˜ì§ íšŒì „ ì²˜ë¦¬
         targetVerticalRoataion -= mouseX;
-        targetVerticalRoataion = Mathf.Clamp(targetVerticalRoataion, yMinLimit, yMaxLimit); // ¼öÁ÷ È¸Àü Á¦ÇÑ
+        targetVerticalRoataion = Mathf.Clamp(targetVerticalRoataion, yMinLimit, yMaxLimit); // ìˆ˜ì§ íšŒì „ ì œí•œ
         phi = Mathf.MoveTowards(phi, targetVerticalRoataion, vericalRotationSpeed * Time.deltaTime);
 
-        // ÇÃ·¹ÀÌ¾î È¸Àü(Ä³¸¯ÅÍ°¡ ¼öÆòÀ¸·Î¸¸ È¸Àü)
+        // í”Œë ˆì´ì–´ íšŒì „(ìºë¦­í„°ê°€ ìˆ˜í‰ìœ¼ë¡œë§Œ íšŒì „)
         transform.rotation = Quaternion.Euler(0.0f, theta, 0.0f);
 
 
         if (isFirstPerson)
         {
-            firstPersonCamera.transform.localRotation = Quaternion.Euler(phi, 0.0f, 0.0f);// 1ÀÎÄª Ä«¸Ş¶ó ¼öÁ÷ È¸Àü
+            firstPersonCamera.transform.localRotation = Quaternion.Euler(phi, 0.0f, 0.0f);// 1ì¸ì¹­ ì¹´ë©”ë¼ ìˆ˜ì§ íšŒì „
         }
         else
         {
-            // 3ÀÎÄª Ä«¸Ş¶ó ±¸¸é ÁÂÇ¥°è¿¡¼­ À§Ä¡ ¹× È¸Àü °è»ê
+            // 3ì¸ì¹­ ì¹´ë©”ë¼ êµ¬ë©´ ì¢Œí‘œê³„ì—ì„œ ìœ„ì¹˜ ë° íšŒì „ ê³„ì‚°
             float x = radius * Mathf.Sin(Mathf.Deg2Rad * phi) * math.cos(Mathf.Deg2Rad * theta);
             float y = radius * Mathf.Sin(Mathf.Deg2Rad * phi);
-            float z = radius * Mathf.Sin(Mathf.Deg2Rad * phi) * math.sin(Mathf.Deg2Rad * theta); ;
+            float z = radius * Mathf.Sin(Mathf.Deg2Rad * phi) * math.sin(Mathf.Deg2Rad * theta); 
 
             thirdPersonCamera.transform.position = transform.position + new Vector3(x, y, z);
-            thirdPersonCamera.transform.LookAt(transform); // Ä«¸Ş¶ó°¡ Ç×»ó ÇÃ·¹ÀÌ¾î¸¦ ¹Ù¶óº¸µµ·Ï ¼³Á¤
+            thirdPersonCamera.transform.LookAt(transform); // ì¹´ë©”ë¼ê°€ í•­ìƒ í”Œë ˆì´ì–´ë¥¼ ë°”ë¼ë³´ë„ë¡ ì„¤ì •
 
-            // ¸¶¿ì½º ½ºÅ©·ÑÀ» »ç¿ëÇÏ¿© Ä«¸Ş¶ó ÁÜ Á¶Á¤
+            // ë§ˆìš°ìŠ¤ ìŠ¤í¬ë¡¤ì„ ì‚¬ìš©í•˜ì—¬ ì¹´ë©”ë¼ ì¤Œ ì¡°ì •
             radius = Mathf.Clamp(radius - Input.GetAxis("Mouse ScrollWheel") * 5, minRadius, maxRadius);
         }
     }
 
-    // 1ÀÎÄª°ú 3ÀÎÄª Ä«¸Ş¶ó¸¦ ÀüÈ¯ÇÏ´Â ÇÔ¼ö
+    // 1ì¸ì¹­ê³¼ 3ì¸ì¹­ ì¹´ë©”ë¼ë¥¼ ì „í™˜í•˜ëŠ” í•¨ìˆ˜
 
     void HandleCameraToggle()
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
-            isFirstPerson = !isFirstPerson; // Ä«¸Ş¶ó ¸ğµå ÀüÈ¯
+            isFirstPerson = !isFirstPerson; // ì¹´ë©”ë¼ ëª¨ë“œ ì „í™˜
             SetActiveCamera();
         }
     }
 
-    // Ä«¸Ş¶ó ÃÊ±â À§Ä¡ ¹× È¸ÀüÀ» ¼³Á¤ÇÏ´Â ÇÔ¼ö
+    // ì¹´ë©”ë¼ ì´ˆê¸° ìœ„ì¹˜ ë° íšŒì „ì„ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
     void SetupCameras()
     {
-        firstPersonCamera.transform.localPosition = new Vector3(0f, -0.6f, 0f);  //1ÀÎÄª Ä«¸Ş¶ó À§Ä¡
-        firstPersonCamera.transform.localRotation = Quaternion.identity;         // ÀÎÄª Ä«¸Ş¶ó È¸Àü ÃÊ±âÈ­
+        firstPersonCamera.transform.localPosition = new Vector3(0f, -0.6f, 0f);  //1ì¸ì¹­ ì¹´ë©”ë¼ ìœ„ì¹˜
+        firstPersonCamera.transform.localRotation = Quaternion.identity;         // ì¸ì¹­ ì¹´ë©”ë¼ íšŒì „ ì´ˆê¸°í™”
     }
 
-    // ÇÃ·¹ÀÌ¾î Á¡ÇÁ¸¦ Ã³¸®ÇÏ´Â ÇÔ¼ö
+    // í”Œë ˆì´ì–´ ì í”„ë¥¼ ì²˜ë¦¬í•˜ëŠ” í•¨ìˆ˜
 
     void Handlejump()
     {
-        //Á¡ÇÁ ¹öÆ°À» ´©¸£°í ¶¥¿¡ ÀÖÀ» ‹š
+        //ì í”„ ë²„íŠ¼ì„ ëˆ„ë¥´ê³  ë•…ì— ìˆì„ Â‹Âš
         if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // À§ÂÊÀ¸·Î ÈûÀ» °¡ÇØ Á¡ÇÁ
-            isGrounded = false;                                     // °øÁß¿¡ ÀÖ´Â »óÅÂ·Î ÀüÈ¯
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // ìœ„ìª½ìœ¼ë¡œ í˜ì„ ê°€í•´ ì í”„
+            isGrounded = false;                                     // ê³µì¤‘ì— ìˆëŠ” ìƒíƒœë¡œ ì „í™˜
         }
     }
-    // ÇÃ·¹ÀÌ¾îÀÇ ÀÌµ¿À» Ã³¸®ÇÏ´Â ÇÔ¼ö
+    // í”Œë ˆì´ì–´ì˜ ì´ë™ì„ ì²˜ë¦¬í•˜ëŠ” í•¨ìˆ˜
     void HandleMovement()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");      //ÁÂ¿ì ÀÔ·Â (-1 . 1)
-        float moveVertical = Input.GetAxis("Vertical");            // ¾ÕµÚ ÀÔ·Â (1 , -1)
+        float moveHorizontal = Input.GetAxis("Horizontal");      //ì¢Œìš° ì…ë ¥ (-1 . 1)
+        float moveVertical = Input.GetAxis("Vertical");            // ì•ë’¤ ì…ë ¥ (1 , -1)
 
-        if (!isFirstPerson) // 3ÀÎÄª ¸ğµå ÀÏ¶§, Ä«¸Ş¶ó ¹æÇâÀ¸·Î ÀÌµ¿ Ã³¸®
+        if (!isFirstPerson) // 3ì¸ì¹­ ëª¨ë“œ ì¼ë•Œ, ì¹´ë©”ë¼ ë°©í–¥ìœ¼ë¡œ ì´ë™ ì²˜ë¦¬
         {
-            Vector3 cameraForward = thirdPersonCamera.transform.forward;        // Ä«¸Ş¶ó ¾Õ ¹æÇâ
-            cameraForward.y = 0f; // ¼öÁ÷ ¹æÇâ Á¦°Å
-            cameraForward.Normalize();          // ¹æÇâ ¹éÅÍ Á¤±ÔÈ­ (0~1) »çÀÌÀÇ °ªÀ¸·Î ¸¸µé¾îÁØ´Ù.
+            Vector3 cameraForward = thirdPersonCamera.transform.forward;        // ì¹´ë©”ë¼ ì• ë°©í–¥
+            cameraForward.y = 0f; // ìˆ˜ì§ ë°©í–¥ ì œê±°
+            cameraForward.Normalize();          // ë°©í–¥ ë°±í„° ì •ê·œí™” (0~1) ì‚¬ì´ì˜ ê°’ìœ¼ë¡œ ë§Œë“¤ì–´ì¤€ë‹¤.
                                                
-            Vector3 cameraRight = thirdPersonCamera.transform.right;  // Ä«¸Ş¶ó ¿À¸¥ÂÊ ¹æÇâ
+            Vector3 cameraRight = thirdPersonCamera.transform.right;  // ì¹´ë©”ë¼ ì˜¤ë¥¸ìª½ ë°©í–¥
             cameraRight.y = 0f;
             cameraRight.Normalize();
 
-            // ÀÌµ¿ ¹éÅÍ °è»ê
+            // ì´ë™ ë°±í„° ê³„ì‚°
             Vector3 movement = cameraForward * moveVertical + cameraRight * moveHorizontal;
-            rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime); // ¹°¸® ±â¹İ ÀÌµ¿
+            rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime); // ë¬¼ë¦¬ ê¸°ë°˜ ì´ë™
         }
         else
         {
-            // Ä³¸¯ÅÍ ±âÁØÀ¸·Î ÀÌµ¿
+            // ìºë¦­í„° ê¸°ì¤€ìœ¼ë¡œ ì´ë™
             Vector3 movement = transform.right * moveHorizontal + transform.forward * moveVertical;
-            rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime); // ¹°¸® ±â¹İ ÀÌµ¿
+            rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime); // ë¬¼ë¦¬ ê¸°ë°˜ ì´ë™
         }
     }
 
-    // ÇÃ·¹ÀÌ¾î°¡ ¶¥¿¡ ´ê¾Æ ÀÖ´ÂÁö °¨Áö
+    // í”Œë ˆì´ì–´ê°€ ë•…ì— ë‹¿ì•„ ìˆëŠ”ì§€ ê°ì§€
     private void OnCollisionEnter(Collision collision)
     {
-        isGrounded = true;          // ÇÃ·¹ÀÌ¾î´Â ¶¥¿¡ ÀÖ´Ù.
+        isGrounded = true;          // í”Œë ˆì´ì–´ëŠ” ë•…ì— ìˆë‹¤.
     }
 }
