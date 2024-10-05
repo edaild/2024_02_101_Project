@@ -149,7 +149,6 @@ public class PlayerController : MonoBehaviour
 
             // 이동 백터 계산
             movement = cameraForward * moveVertical + cameraRight * moveHorizontal;
-
         }
         else
         {
