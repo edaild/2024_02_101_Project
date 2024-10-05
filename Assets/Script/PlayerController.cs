@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private float theta = 0.0f;                     // 카메라의 수평 회전 각도
     private float phi = 0.0f;                       // 카메라의 수직 회전 각도
     private float targetVerticalRoataion = 0;       // 목표 수직 회전 각도
-    private float vericalRotationSpeed = 240f;     // 수직 회전 속도
+    private float verticalRotationSpeed = 240f;     // 수직 회전 속도
 
     public float mouseSenesitivity = 2f;         // 마우스 감도
 
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
     void HandleRotation()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSenesitivity;        // 마우스 좌우 입력
-        float mousey = Input.GetAxis("Mouse Y") * mouseSenesitivity;        // 마우스 상하 입력
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSenesitivity;        // 마우스 상하 입력
 
         // 수평 회전 (theta) 값
 
@@ -75,9 +75,9 @@ public class PlayerController : MonoBehaviour
         theta = Mathf.Repeat(theta, 360f);  // 각도 값이 360을 넘지 않도록 조정
 
         //  수직 회전 처리
-        targetVerticalRoataion -= mouseX;
+        targetVerticalRoataion -= mouseY;
         targetVerticalRoataion = Mathf.Clamp(targetVerticalRoataion, yMinLimit, yMaxLimit); // 수직 회전 제한
-        phi = Mathf.MoveTowards(phi, targetVerticalRoataion, vericalRotationSpeed * Time.deltaTime);
+        phi = Mathf.MoveTowards(phi, targetVerticalRoataion, verticalRotationSpeed * Time.deltaTime);
 
         if (isFirstPerson)
         {
@@ -88,9 +88,9 @@ public class PlayerController : MonoBehaviour
         else
         {
             // 3인칭 카메라 구면 좌표계에서 위치 및 회전 계산
-            float x = radius * Mathf.Sin(Mathf.Deg2Rad * phi) * math.cos(Mathf.Deg2Rad * theta);
-            float y = radius * Mathf.Sin(Mathf.Deg2Rad * phi);
-            float z = radius * Mathf.Sin(Mathf.Deg2Rad * phi) * math.sin(Mathf.Deg2Rad * theta); ;
+            float x = radius * Mathf.Sin(Mathf.Deg2Rad * phi) * Mathf.Cos(Mathf.Deg2Rad * theta);
+            float y = radius * Mathf.Cos(Mathf.Deg2Rad * phi);
+            float z = radius * Mathf.Sin(Mathf.Deg2Rad * phi) * Mathf.Sin(Mathf.Deg2Rad * theta); ;
 
             thirdPersonCamera.transform.position = transform.position + new Vector3(x, y, z);
             thirdPersonCamera.transform.LookAt(transform); // 카메라가 항상 플레이어를 바라보도록 설정
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
     // 카메라 초기 위치 및 회전을 설정하는 함수
     void SetupCameras()
     {
-        firstPersonCamera.transform.localPosition = new Vector3(0f, -0.6f, 0f);  //1인칭 카메라 위치
+        firstPersonCamera.transform.localPosition = new Vector3(0f, 0.6f, 0f);  //1인칭 카메라 위치
         firstPersonCamera.transform.localRotation = Quaternion.identity;         // 인칭 카메라 회전 초기화
     }
 
@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
 
             // 이동 백터 계산
             movement = cameraForward * moveVertical + cameraRight * moveHorizontal;
-            rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime); // 물리 기반 이동
+
         }
         else
         {
@@ -168,7 +168,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // 플레이어가 땅에 닿아 있는지 감지
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         isGrounded = true;          // 플레이어는 땅에 있다.
     }
