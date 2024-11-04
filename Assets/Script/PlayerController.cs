@@ -100,8 +100,8 @@ public class PlayerController : MonoBehaviour
         else
         {
             // 3인칭 카메라 로직 수정
-            CurrentX = mouseX;
-            CurrentY = mouseY;  // 마우스 y
+            CurrentX += mouseX;
+            CurrentY -= mouseY;  // 마우스 y
 
             // 수직 회전 제한
             CurrentY = Mathf.Clamp(CurrentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
