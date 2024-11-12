@@ -25,12 +25,14 @@ public class CollectibleItem : MonoBehaviour
     {
         canCollect = false;     // 수집 불가능 상태로 변경
         GetComponent<MeshRenderer>().enabled = false;           // 아이템의 MeshRenderer를 꺼서 보이지 않게 함
+        GetComponent<MeshRenderer>().enabled = false;
 
 
         // 설정된 리스폰 시간 만큼 대기
         yield return new WaitForSeconds(respawnTime);
 
         GetComponent<MeshRenderer>().enabled = true;            // 아이템을 다시 보이게 함
+        GetComponent<MeshRenderer>().enabled = true;
         canCollect = true;                                      // 수집 가능 상태로 변경
     }
 }
