@@ -53,7 +53,7 @@ public class ItemDetector : MonoBehaviour
             if (item != null && item.canCollect)            // 아이템이 있고 수집 가능한지 확인
             {
                 float distance = Vector3.Distance(transform.position, item.transform.position);     // 거리 계산
-                if (distance > closestDistance)   // 더 가까운 아이템을 발견 시 업데이트
+                if (distance < closestDistance)   // 더 가까운 아이템을 발견 시 업데이트
                 {
                     closestDistance = distance;
                     collectibleItem = item;
@@ -66,7 +66,7 @@ public class ItemDetector : MonoBehaviour
 
             if (currentNearbyItem != null)
             {
-                Debug.Log($"[F] {currentNearbyItem.itemName} 수집 ");         // 새로운 아이템 수집 메세지 표시
+                Debug.Log($"[E] {currentNearbyItem.itemName} 수집 ");         // 새로운 아이템 수집 메세지 표시
             }
         }
     }
