@@ -27,7 +27,7 @@ public class BuildingDetector : MonoBehaviour
         }
 
         // 가까운 아이템이 있고 E 키를 눌렀을 때 아이템 수집
-        if (currentNearbyBuilding != null && Input.GetKeyDown(KeyCode.E))
+        if (currentNearbyBuilding != null && Input.GetKeyDown(KeyCode.F))
         {
             currentNearbyBuilding.StartConstruction(GetComponent<PlayerInventory>());         // PlayerInventroy를 참조하여 아이템 수집
         }
@@ -61,7 +61,7 @@ public class BuildingDetector : MonoBehaviour
             if (FloationgTextManager.Instance != null)
             {
                 FloationgTextManager.Instance.Show(
-                    $"[F]키로 {currentNearbyBuilding},건설 (나무 {currentNearbyBuilding.requiredTree} 개 필요)",
+                    $"[F]키로 {currentNearbyBuilding.buildingName},건설 (나무 {currentNearbyBuilding.requiredTree} 개 필요)",
                     currentNearbyBuilding.transform.position + Vector3.up
                     );
 
