@@ -6,10 +6,13 @@ using UnityEngine;
 // 아이템 종류 정의
 public enum ItemType 
 {
-    Crystal,        //크리스탈
-    Plant,          // 식물
-    Bush,           // 수풀
+    Crystal,         //크리스탈
+    Plant,           // 식물
+    Bush,            // 수풀
     Tree,           // 나무
+    VegetableStewk, // 야채 스튜 (허기 회복용)
+    FruitSalad,     // 과일 셀러드 (허기 회복용)
+    RepairKit       // 수리 키트 (우주복 수리용)
 }
 public class ItemDetector : MonoBehaviour
 {
