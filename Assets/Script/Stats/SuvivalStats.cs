@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 
-public class SuvivalStats : MonoBehaviour
+public class SurvivalStats : MonoBehaviour
 {
     [Header("Hunger Settings")]
     public float MaxHunger = 100;               // 최대 허기량

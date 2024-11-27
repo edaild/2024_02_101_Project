@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    private SuvivalStats suvivalStats;            // 클레스 선언
+    private SurvivalStats suvivalStats;            // 클레스 선언
     // 각각의 아이템 개수를 저장하는 변수
     public int crystalCount = 0;        // 클리스탈 개수
     public int plantCount = 0;         // 식물 개수
@@ -13,7 +13,7 @@ public class PlayerInventory : MonoBehaviour
 
     public void Start()
     {
-        suvivalStats = GetComponent<SuvivalStats>();
+        suvivalStats = GetComponent<SurvivalStats>();
     }
 
     public void UseItem(ItemType itemType)
